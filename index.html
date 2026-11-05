@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#10091d">
+	<meta name="description" content="A little birthday universe made with love for Jannuuu.">
+	<title>Jannuuu's Birthday Universe</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="style.css">
+	<script src="script.js" defer></script>
+</head>
+<body>
+	<div class="starfield" aria-hidden="true"></div>
+	<header class="topbar">
+		<a class="wordmark" href="#home" aria-label="Jannuuu's birthday universe home"><span class="wordmark-gem">✦</span> FOR JANNUUU</a>
+		<nav aria-label="Main navigation">
+			<a href="#memories">Memories</a><a href="#letter">My letter</a><a href="#arcade">Game zone</a><a href="#cake">The big wish</a>
+		</nav>
+		<audio id="birthday-audio" src="music/birthday-song.mp3" preload="none" loop playsinline></audio>
+	</header>
+
+	<main>
+		<section class="hero" id="home" aria-labelledby="hero-title">
+			<div class="hero-orbit orbit-one" aria-hidden="true"></div><div class="hero-orbit orbit-two" aria-hidden="true"></div>
+			<div class="hero-content">
+				<p class="eyebrow"><span class="eyebrow-line"></span> A LITTLE UNIVERSE, MADE FOR YOU <span class="eyebrow-line"></span></p>
+				<h1 id="hero-title">Happiest Birthday <span class="title-icons">💖🧿</span></h1>
+				<p class="hero-age">EIGHTEENTH</p>
+				<p class="hero-name">Jannuuu <span>✨</span></p>
+				<p class="hero-copy">For the friend who feels like family, and makes my world a little brighter just by being in it.</p>
+				<div class="countdown" aria-label="Countdown to November 5, 2027 at 6:30 AM">
+					<div><strong id="days">---</strong><span>days</span></div><b>:</b><div><strong id="hours">--</strong><span>hours</span></div><b>:</b><div><strong id="minutes">--</strong><span>minutes</span></div><b>:</b><div><strong id="seconds">--</strong><span>seconds</span></div>
+				</div>
+				<p class="countdown-note" id="countdown-note">Until November 5, 2027 · 6:30 AM</p>
+				<a class="button button-primary" href="#letter">Enter Your Birthday Universe <span aria-hidden="true">↘</span></a>
+			</div>
+			<div class="hero-spark spark-a" aria-hidden="true">✦</div><div class="hero-spark spark-b" aria-hidden="true">✧</div><div class="hero-spark spark-c" aria-hidden="true">♡</div>
+			<a class="scroll-cue" href="#letter" aria-label="Scroll to your letter"><span></span> SCROLL TO EXPLORE</a>
+		</section>
+
+		<section class="section letter-section" id="letter">
+			<div class="section-heading reveal"><p class="eyebrow">SEALED WITH ALL MY LOVE</p><h2>A note, just <em>for you.</em></h2></div>
+			<div class="letter-scene reveal" id="letter-scene">
+				<p class="letter-intro" id="letter-intro">There is something I have been wanting to tell you…</p>
+				<div class="envelope" id="envelope" aria-hidden="true"><div class="envelope-back"></div><div class="envelope-letter"></div><div class="envelope-front"></div><div class="envelope-flap"></div><span class="envelope-seal">♡</span></div>
+				<button class="button button-primary" id="open-letter" type="button">Open your surprise <span aria-hidden="true">💌</span></button>
+				<article class="letter-paper" id="letter-paper" aria-hidden="true" tabindex="-1"><div class="letter-paper-inner"><p class="letter-kicker">A LETTER FOR MY FAVORITE PERSON</p><div id="letter-copy"></div></div></article>
+			</div>
+		</section>
+
+		<section class="section wishes-section" id="wishes">
+			<div class="section-heading reveal"><p class="eyebrow">A CONSTELLATION OF GOOD THINGS</p><h2>All the happiness <em>you deserve.</em></h2><p>Pop a balloon to discover a birthday wish, sent into the universe with your name on it.</p></div>
+			<div class="wish-grid" id="wish-grid"></div>
+		</section>
+
+		<section class="section memory-section" id="memories">
+			<div class="section-heading reveal"><p class="eyebrow">OUR LITTLE CORNER OF THE GALAXY</p><h2>Moments I keep <em>close.</em></h2><p>Every photo holds a tiny piece of why you mean so much to me.</p></div>
+			<div class="memory-grid">
+				<button class="memory-card memory-card-tall reveal" type="button" data-photo="0" aria-label="Open memory photo 1"><img src="images/1.jpeg" alt="A favorite memory with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 01</span><span class="memory-caption">One of the memories I will always keep close to my heart.</span></button>
+				<button class="memory-card reveal" type="button" data-photo="1" aria-label="Open memory photo 2"><img src="images/2.jpeg" alt="A special moment with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 02</span><span class="memory-caption">Some moments become special simply because they are with you.</span></button>
+				<button class="memory-card reveal" type="button" data-photo="2" aria-label="Open memory photo 3"><img src="images/3.jpeg" alt="A beautiful memory with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 03</span><span class="memory-caption">A beautiful memory with my favorite person.</span></button>
+				<button class="memory-card reveal" type="button" data-photo="3" aria-label="Open memory photo 4"><img src="images/4.jpeg" alt="A moment that means a lot to me" loading="lazy"><span class="memory-index">MEMORY 04</span><span class="memory-caption">Every little moment with you means more than words can explain.</span></button>
+				<button class="memory-card memory-card-wide reveal" type="button" data-photo="4" aria-label="Open memory photo 5"><img src="images/5.jpeg" alt="A memory I would love to relive with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 05</span><span class="memory-caption">A memory I wish I could relive a thousand times.</span></button>
+			</div>
+		</section>
+
+		<section class="section heart-words" id="heart-words">
+			<div class="quote-orbit" aria-hidden="true">♡</div>
+			<div class="section-heading reveal"><p class="eyebrow">15 THINGS I ADORE ABOUT YOU</p><h2>Little words <em>from my heart.</em></h2></div>
+			<div class="quote-wrap reveal" aria-live="polite"><span class="quote-mark">“</span><p class="quote-text" id="quote-text"></p><p class="quote-count" id="quote-count"></p><button class="button button-outline" id="next-quote" type="button">More words from my heart <span aria-hidden="true">→</span></button></div>
+			<div class="heart-footnote">A few words could never hold everything I appreciate about you. 💌</div>
+		</section>
+
+		<section class="section arcade-section" id="arcade">
+			<div class="section-heading reveal"><p class="eyebrow">A FEW LITTLE WORLDS TO PLAY IN</p><h2>Jannuuu’s cosmic <em>game zone.</em></h2><p>Eight tiny adventures, each carrying a wish, a promise, or a reminder of how much I treasure you.</p></div>
+			<div class="arcade-grid" id="arcade-grid"></div>
+			<section class="game-panel" id="game-panel" aria-live="polite" hidden>
+				<div class="game-panel-header"><button class="icon-button" id="back-to-arcade" type="button" aria-label="Back to the game arcade">←</button><div><p class="eyebrow" id="game-eyebrow">COSMIC GAME</p><h3 id="game-title"></h3></div><button class="icon-button" id="close-game" type="button" aria-label="Close game">×</button></div>
+				<div class="game-content" id="game-content"></div>
+			</section>
+		</section>
+
+		<section class="section cake-section" id="cake">
+			<div class="section-heading reveal"><p class="eyebrow">MAKE A WISH, KEEP IT CLOSE</p><h2>The universe saved <em>you a slice.</em></h2><p>One candle for every bright year ahead. Your photos are part of this little orbit too.</p></div>
+			<div class="cake-stage reveal" id="cake-stage">
+				<div class="cake-glow" aria-hidden="true"></div><div class="cake-orbit cake-orbit-a" aria-hidden="true"><span>✦</span><span>♡</span><span>✧</span></div>
+				<div class="cake-assembly" id="cake-assembly">
+					<div class="cake-photo cake-photo-1"><img src="images/1.jpeg" alt="Jannuuu birthday memory 1" loading="lazy"></div>
+					<div class="cake-photo cake-photo-2"><img src="images/2.jpeg" alt="Jannuuu birthday memory 2" loading="lazy"></div>
+					<div class="cake-photo cake-photo-3"><img src="images/3.jpeg" alt="Jannuuu birthday memory 3" loading="lazy"></div>
+					<div class="cake-photo cake-photo-4"><img src="images/4.jpeg" alt="Jannuuu birthday memory 4" loading="lazy"></div>
+					<div class="cake-photo cake-photo-5"><img src="images/5.jpeg" alt="Jannuuu birthday memory 5" loading="lazy"></div>
+					<div class="candles" id="candles"><span class="candle"><i class="flame"></i></span><span class="candle"><i class="flame"></i></span><span class="candle"><i class="flame"></i></span></div>
+					<div class="cake-tier cake-tier-top"><span class="icing-drip"></span><i>✦　♡　✦</i></div><div class="cake-tier cake-tier-middle"><span class="icing-drip"></span><i>✧　✦　✧　✦</i></div><div class="cake-tier cake-tier-bottom"><span class="icing-drip"></span><i>♡　✦　♡　✦　♡</i></div><div class="cake-plate"></div>
+				</div>
+				<div class="cake-wishes" id="cake-wishes" aria-live="polite"></div>
+			</div>
+			<p class="cake-state" id="cake-state">Take a breath, make your wish, and let the stars hear it.</p>
+			<button class="button button-primary" id="make-wish" type="button">Make a birthday wish <span aria-hidden="true">🎂</span></button>
+		</section>
+
+		<section class="finale" id="finale">
+			<div class="finale-stars" aria-hidden="true"></div><div class="finale-content">
+				<p class="eyebrow">THE WHOLE UNIVERSE IS CELEBRATING YOU</p><h2>Happiest Birthday,<br><em>Jannuuu</em> <span>💖🧿</span></h2>
+				<p class="finale-age">Eighteen looks beautiful on you.</p>
+				<p class="finale-copy">May your life always be filled with love, laughter, peace, and unforgettable memories.<br>You will always have a special place in my heart. ✨</p>
+				<button class="button button-primary" id="celebrate-again" type="button">Celebrate again <span aria-hidden="true">✦</span></button>
+			</div>
+			<div class="confetti-field" id="confetti-field" aria-hidden="true"></div>
+		</section>
+	</main>
+	<footer class="site-footer"><span>MADE WITH A UNIVERSE OF LOVE</span><span>FOR JANNUUU · 18 ✦</span></footer>
+
+	<dialog class="lightbox" id="lightbox" aria-label="Photo viewer"><button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close photo">×</button><button class="lightbox-arrow lightbox-prev" id="lightbox-prev" type="button" aria-label="Previous photo">←</button><figure><img id="lightbox-image" alt=""><figcaption id="lightbox-caption"></figcaption></figure><button class="lightbox-arrow lightbox-next" id="lightbox-next" type="button" aria-label="Next photo">→</button></dialog>
+	<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
