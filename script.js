@@ -3,11 +3,11 @@
 
   const photoPaths = ["images/1.jpeg", "images/2.jpeg", "images/3.jpeg", "images/4.jpeg", "images/5.jpeg"];
   const photoCaptions = [
-    "One of the memories I will always keep close to my heart.",
-    "Some moments become special simply because they are with you.",
-    "A beautiful memory with my favorite person.",
-    "Every little moment with you means more than words can explain.",
-    "A memory I wish I could relive a thousand times."
+    "Every little moment with you becomes one of my favorite memories. 💗",
+    "The best memories are the ones I get to share with you. ✨",
+    "Your smile makes even an ordinary day feel magical. 🌸",
+    "I'll always keep this happy little moment close to my heart. 🫶",
+    "Here's to making a thousand more beautiful memories together. 💖"
   ];
   const wishes = [
     "Wishing you endless happiness in this beautiful new chapter of your life. ❤️",
@@ -506,6 +506,131 @@
   }
   $("#celebrate-again").addEventListener("click", celebrate);
   celebrate();
+
+  const gate = $("#secret-gate");
+  const lockCard = $(".lock-card", gate);
+  const passwordDots = $(".password-dots", gate);
+  const passwordIndicators = $$("li", passwordDots);
+  const gateFeedback = $("#gate-feedback");
+  const unlockButton = $("#unlock-password");
+  const gatePageElements = $$(".starfield, .topbar, main, .site-footer, .lightbox, .toast");
+  const SECRET_PASSWORD = "0511";
+  let enteredPassword = "";
+  let gateErrorTimeout;
+  let isUnlocking = false;
+  document.body.classList.add("gate-active");
+  gatePageElements.forEach((element) => { element.inert = true; });
+
+  function renderPassword() {
+    passwordIndicators.forEach((indicator, index) => indicator.classList.toggle("filled", index < enteredPassword.length));
+    unlockButton.disabled = enteredPassword.length !== 4 || isUnlocking;
+  }
+  function dismissGateError() {
+    window.clearTimeout(gateErrorTimeout);
+    passwordDots.classList.remove("is-error");
+    gateFeedback.classList.remove("is-error");
+    lockCard.classList.remove("shake");
+  }
+  function addPasswordDigit(digit) {
+    if (isUnlocking || enteredPassword.length >= 4) return;
+    dismissGateError();
+    enteredPassword += digit;
+    gateFeedback.textContent = "A little birthday magic is waiting inside ✨";
+    renderPassword();
+  }
+  function clearPassword() {
+    if (isUnlocking) return;
+    dismissGateError();
+    enteredPassword = "";
+    gateFeedback.textContent = "A little birthday magic is waiting inside ✨";
+    renderPassword();
+  }
+  function showWrongPassword() {
+    passwordDots.classList.add("is-error");
+    gateFeedback.classList.add("is-error");
+    gateFeedback.textContent = "Oops! That's not our little secret 💕";
+    lockCard.classList.remove("shake");
+    void lockCard.offsetWidth;
+    lockCard.classList.add("shake");
+    enteredPassword = "";
+    unlockButton.disabled = true;
+    window.clearTimeout(gateErrorTimeout);
+    gateErrorTimeout = window.setTimeout(() => {
+      passwordDots.classList.remove("is-error");
+      gateFeedback.classList.remove("is-error");
+      lockCard.classList.remove("shake");
+      gateFeedback.textContent = "A little birthday magic is waiting inside ✨";
+      renderPassword();
+    }, 1050);
+  }
+  function makeGateParticle(index) {
+    const particle = document.createElement("i");
+    const symbols = ["♥", "♡", "✦", "✧", "♥", "✴"];
+    particle.className = `gate-particle${index % 3 === 0 ? " sparkle" : ""}`;
+    particle.textContent = symbols[index % symbols.length];
+    particle.style.left = `${50 + (Math.random() - 0.5) * 55}%`;
+    particle.style.top = `${43 + (Math.random() - 0.5) * 34}%`;
+    particle.style.fontSize = `${12 + Math.random() * 18}px`;
+    particle.style.setProperty("--drift", `${(Math.random() - 0.5) * 330}px`);
+    particle.style.setProperty("--rise", `${-90 - Math.random() * 370}px`);
+    particle.style.setProperty("--delay", `${Math.random() * 0.28}s`);
+    $("#gate-particles").append(particle);
+  }
+  function unlockUniverse() {
+    if (isUnlocking || enteredPassword.length !== 4) return;
+    dismissGateError();
+    if (enteredPassword !== SECRET_PASSWORD) {
+      showWrongPassword();
+      return;
+    }
+
+    isUnlocking = true;
+    unlockButton.disabled = true;
+    gateFeedback.classList.add("is-success");
+    gateFeedback.textContent = "Yayyy! You found the secret! 💗";
+    for (let index = 0; index < 64; index += 1) makeGateParticle(index);
+    gate.classList.add("unlocking");
+    window.setTimeout(() => {
+      gate.hidden = true;
+      document.body.classList.remove("gate-active");
+      document.body.classList.add("gate-reveal");
+      gatePageElements.forEach((element) => { element.inert = false; });
+    }, 1320);
+  }
+
+  $$(".number-pad [data-digit]", gate).forEach((button) => {
+    button.addEventListener("click", () => addPasswordDigit(button.dataset.digit));
+  });
+  $("#backspace-password").addEventListener("click", () => {
+    if (isUnlocking) return;
+    dismissGateError();
+    enteredPassword = enteredPassword.slice(0, -1);
+    gateFeedback.textContent = "A little birthday magic is waiting inside ✨";
+    renderPassword();
+  });
+  $("#clear-password").addEventListener("click", clearPassword);
+  unlockButton.addEventListener("click", unlockUniverse);
+  document.addEventListener("keydown", (event) => {
+    if (gate.hidden || gate.classList.contains("unlocking") || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (/^[0-9]$/.test(event.key)) {
+      event.preventDefault();
+      addPasswordDigit(event.key);
+    } else if (event.key === "Backspace") {
+      event.preventDefault();
+      if (enteredPassword) {
+        dismissGateError();
+        enteredPassword = enteredPassword.slice(0, -1);
+        renderPassword();
+      }
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      unlockUniverse();
+    } else if (event.key === "Escape") {
+      event.preventDefault();
+      clearPassword();
+    }
+  });
+  renderPassword();
 
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); revealObserver.unobserve(entry.target); } });

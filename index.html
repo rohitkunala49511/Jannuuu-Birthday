@@ -14,6 +14,47 @@
 </head>
 <body>
 	<div class="starfield" aria-hidden="true"></div>
+	<section class="secret-gate" id="secret-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title" aria-describedby="gate-subtitle">
+		<div class="gate-nebula" aria-hidden="true"></div>
+		<div class="gate-stars" aria-hidden="true"></div>
+		<div class="gate-content">
+			<div class="teddy-scene" aria-label="Two little teddy bears hugging">
+				<div class="teddy teddy-left" aria-hidden="true">
+					<span class="teddy-ear teddy-ear-left"></span><span class="teddy-ear teddy-ear-right"></span>
+					<span class="teddy-head"><i class="teddy-eye teddy-eye-left"></i><i class="teddy-eye teddy-eye-right"></i><i class="teddy-nose"></i><i class="teddy-cheek teddy-cheek-left"></i><i class="teddy-cheek teddy-cheek-right"></i><i class="teddy-smile"></i><i class="teddy-bow">♡</i></span>
+					<span class="teddy-body"><i class="teddy-belly"></i></span><i class="teddy-arm teddy-arm-outer"></i><i class="teddy-arm teddy-arm-hug"></i><i class="teddy-foot teddy-foot-left"></i><i class="teddy-foot teddy-foot-right"></i>
+				</div>
+				<div class="teddy teddy-right" aria-hidden="true">
+					<span class="teddy-ear teddy-ear-left"></span><span class="teddy-ear teddy-ear-right"></span>
+					<span class="teddy-head"><i class="teddy-eye teddy-eye-left"></i><i class="teddy-eye teddy-eye-right"></i><i class="teddy-nose"></i><i class="teddy-cheek teddy-cheek-left"></i><i class="teddy-cheek teddy-cheek-right"></i><i class="teddy-smile"></i><i class="teddy-bow">✦</i></span>
+					<span class="teddy-body"><i class="teddy-belly"></i></span><i class="teddy-arm teddy-arm-outer"></i><i class="teddy-arm teddy-arm-hug"></i><i class="teddy-foot teddy-foot-left"></i><i class="teddy-foot teddy-foot-right"></i>
+				</div>
+				<span class="teddy-heart teddy-heart-one" aria-hidden="true">♥</span><span class="teddy-heart teddy-heart-two" aria-hidden="true">♥</span><span class="teddy-heart teddy-heart-three" aria-hidden="true">♡</span>
+			</div>
+			<div class="lock-card">
+				<p class="gate-eyebrow"><span>✦</span> A SECRET MADE WITH LOVE <span>✦</span></p>
+				<div class="lock-emblem" aria-hidden="true"><span class="lock-shackle"></span><span class="lock-body"><i></i></span></div>
+				<h1 id="gate-title">A Little Surprise Awaits You</h1>
+				<p class="gate-subtitle" id="gate-subtitle">Only someone special knows the secret.</p>
+				<ol class="password-dots" aria-label="Four password digits">
+					<li></li><li></li><li></li><li></li>
+				</ol>
+				<div class="number-pad" aria-label="Numeric password keypad">
+					<button type="button" data-digit="1" aria-label="1">1</button><button type="button" data-digit="2" aria-label="2">2</button><button type="button" data-digit="3" aria-label="3">3</button>
+					<button type="button" data-digit="4" aria-label="4">4</button><button type="button" data-digit="5" aria-label="5">5</button><button type="button" data-digit="6" aria-label="6">6</button>
+					<button type="button" data-digit="7" aria-label="7">7</button><button type="button" data-digit="8" aria-label="8">8</button><button type="button" data-digit="9" aria-label="9">9</button>
+					<button class="keypad-spacer" type="button" tabindex="-1" aria-hidden="true" disabled></button><button type="button" data-digit="0" aria-label="0">0</button><button class="keypad-action" id="backspace-password" type="button" aria-label="Delete last digit">⌫</button>
+				</div>
+				<div class="lock-actions">
+					<button class="gate-clear" id="clear-password" type="button">CLEAR</button>
+					<button class="gate-unlock" id="unlock-password" type="button" disabled><span>UNLOCK</span><span aria-hidden="true">↗</span></button>
+				</div>
+				<p class="gate-feedback" id="gate-feedback" aria-live="polite" role="status">A little birthday magic is waiting inside ✨</p>
+				<p class="gate-hint">A FOUR-DIGIT SECRET <span>·</span> YOURS TO KNOW</p>
+			</div>
+		</div>
+		<div class="gate-particles" id="gate-particles" aria-hidden="true"></div>
+	</section>
 	<header class="topbar">
 		<a class="wordmark" href="#home" aria-label="Jannuuu's birthday universe home"><span class="wordmark-gem">✦</span> FOR JANNUUU</a>
 		<nav aria-label="Main navigation">
@@ -60,11 +101,11 @@
 		<section class="section memory-section" id="memories">
 			<div class="section-heading reveal"><p class="eyebrow">OUR LITTLE CORNER OF THE GALAXY</p><h2>Moments I keep <em>close.</em></h2><p>Every photo holds a tiny piece of why you mean so much to me.</p></div>
 			<div class="memory-grid">
-				<button class="memory-card memory-card-tall reveal" type="button" data-photo="0" aria-label="Open memory photo 1"><img src="images/1.jpeg" alt="A favorite memory with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 01</span><span class="memory-caption">One of the memories I will always keep close to my heart.</span></button>
-				<button class="memory-card reveal" type="button" data-photo="1" aria-label="Open memory photo 2"><img src="images/2.jpeg" alt="A special moment with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 02</span><span class="memory-caption">Some moments become special simply because they are with you.</span></button>
-				<button class="memory-card reveal" type="button" data-photo="2" aria-label="Open memory photo 3"><img src="images/3.jpeg" alt="A beautiful memory with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 03</span><span class="memory-caption">A beautiful memory with my favorite person.</span></button>
-				<button class="memory-card reveal" type="button" data-photo="3" aria-label="Open memory photo 4"><img src="images/4.jpeg" alt="A moment that means a lot to me" loading="lazy"><span class="memory-index">MEMORY 04</span><span class="memory-caption">Every little moment with you means more than words can explain.</span></button>
-				<button class="memory-card memory-card-wide reveal" type="button" data-photo="4" aria-label="Open memory photo 5"><img src="images/5.jpeg" alt="A memory I would love to relive with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 05</span><span class="memory-caption">A memory I wish I could relive a thousand times.</span></button>
+				<button class="memory-card memory-card-tall reveal" type="button" data-photo="0" aria-label="Open memory photo 1"><img src="images/1.jpeg" alt="A favorite memory with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 01</span><span class="memory-caption">Every little moment with you becomes one of my favorite memories. 💗</span></button>
+				<button class="memory-card reveal" type="button" data-photo="1" aria-label="Open memory photo 2"><img src="images/2.jpeg" alt="A special moment with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 02</span><span class="memory-caption">The best memories are the ones I get to share with you. ✨</span></button>
+				<button class="memory-card reveal" type="button" data-photo="2" aria-label="Open memory photo 3"><img src="images/3.jpeg" alt="A beautiful memory with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 03</span><span class="memory-caption">Your smile makes even an ordinary day feel magical. 🌸</span></button>
+				<button class="memory-card reveal" type="button" data-photo="3" aria-label="Open memory photo 4"><img src="images/4.jpeg" alt="A moment that means a lot to me" loading="lazy"><span class="memory-index">MEMORY 04</span><span class="memory-caption">I'll always keep this happy little moment close to my heart. 🫶</span></button>
+				<button class="memory-card memory-card-wide reveal" type="button" data-photo="4" aria-label="Open memory photo 5"><img src="images/5.jpeg" alt="A memory I would love to relive with Jannuuu" loading="lazy"><span class="memory-index">MEMORY 05</span><span class="memory-caption">Here's to making a thousand more beautiful memories together. 💖</span></button>
 			</div>
 		</section>
 
