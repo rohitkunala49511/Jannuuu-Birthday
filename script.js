@@ -37,28 +37,38 @@
     "Most of all, I love you for being Jahnavi — not because you are perfect, but because there is something about you that makes you irreplaceable to me. ❤️"
   ];
   const games = [
-    { id: "heart", icon: "💗", name: "Heart Catcher", desc: "Catch a shower of hearts and collect a little reminder of how loved you are." },
+    { id: "heart", icon: "🍰", name: "Treat Catcher", desc: "Catch a shower of birthday pastries before they float away." },
     { id: "memory", icon: "✨", name: "Star Memory", desc: "Follow the constellation, remember its rhythm, and let your focus shine." },
     { id: "collector", icon: "🎁", name: "Birthday Wish Collector", desc: "Gather every floating wish for the year ahead." },
     { id: "puzzle", icon: "🧩", name: "Cosmic Puzzle", desc: "Slide the star tiles back into their proper constellation." },
-    { id: "hidden", icon: "🔍", name: "Find the Hidden Heart", desc: "Search the starfield for the heart tucked away just for you." },
+    { id: "hidden", icon: "🍫", name: "Find the Hidden Treat", desc: "Search the starfield for a chocolate surprise tucked away just for you." },
     { id: "shooting", icon: "🌠", name: "Shooting Star Catcher", desc: "Tap the stars as they streak across your sky. You have 30 seconds." },
     { id: "quiz", icon: "💌", name: "Birthday Quiz", desc: "A tiny quiz about wishes, happy days, and your brilliant next chapter." },
-    { id: "maker", icon: "💖", name: "Wish Maker", desc: "Create a little birthday card from the things I wish for you." }
+    { id: "maker", icon: "🍦", name: "Wish Maker", desc: "Create a little birthday card from the things I wish for you." }
   ];
   const quizQuestions = [
     { question: "What belongs in your eighteenth year?", options: ["Big dreams and brave beginnings", "Only busy days", "No room for fun", "Saving every smile for later"], answer: 0, note: "Absolutely. I hope you make room for every dream you have. ✨" },
     { question: "What do you deserve on your birthday?", options: ["A little more homework", "All the love, laughter, and cake", "A quiet inbox", "A year without adventures"], answer: 1, note: "Correct. Today and always, you deserve all the good things. 🎂" },
-    { question: "A good year is made of…", options: ["Perfect plans only", "Small joys, kind people, and new memories", "Never trying anything new", "Keeping every wish secret"], answer: 1, note: "Yes. I hope the small joys find you every single day. 💖" },
+    { question: "A good year is made of…", options: ["Perfect plans only", "Small joys, kind people, and new memories", "Never trying anything new", "Keeping every wish secret"], answer: 1, note: "Yes. I hope the small joys find you every single day. 🍰" },
     { question: "What should you remember when a goal feels far away?", options: ["You can take it one step at a time", "You have to do it all at once", "Your dreams can wait forever", "You should stop believing"], answer: 0, note: "That's it. I'll always be cheering for each step you take. 🌟" }
   ];
   const gameEndQuotes = [
-    "Whatever your dreams look like, I hope you keep reaching for them. I will always be cheering for you. 🌟",
+    "Whatever your dreams look like, I hope you keep reaching for them. I will always be cheering for you. 🌟🍰",
     "You make ordinary days feel brighter. I hope this year gives some of that brightness right back to you. ✨",
-    "Our friendship is one of the parts of my life I am most grateful for. Wherever life takes us, I will treasure it. 🫂",
+    "Our friendship is one of the parts of my life I am most grateful for. Wherever life takes us, I will treasure it. 🫂🍫",
     "You deserve a future full of kind people, peaceful days, brave choices, and goals that make you proud. 💫",
-    "Whenever you need someone in your corner, remember that I am here, believing in you and wishing you well. 💖",
+    "Whenever you need someone in your corner, remember that I am here, believing in you and wishing you well. 🍦",
     "May every new chapter bring you closer to the life you want, while leaving room for laughter along the way. 🌸"
+  ];
+  const friendshipQuotes = [
+    "Jannuuu, you make friendship feel like a place I can always come home to. 🫂",
+    "Getting to know you has made my days lighter; I am grateful our paths crossed. ✨",
+    "You listen with a kindness that makes even hard days feel less lonely. 🌷",
+    "The way you celebrate my little wins makes them feel big. 🍰",
+    "I hope I give you even a fraction of the steadiness and joy you bring me. 🍦",
+    "You make being myself feel easy, and I treasure that more than I say. 🌟",
+    "Your bright, caring spirit makes the people around you feel seen. 🍫",
+    "No matter how many new chapters come, our friendship will always matter to me. 💫"
   ];
 
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -178,17 +188,19 @@
 
   const birthdayAudio = $("#birthday-audio");
   birthdayAudio.volume = 0.7;
-  if (window.matchMedia("(max-width: 767px)").matches) {
-    birthdayAudio.play().catch(() => {
-      // Mobile browsers may block audible autoplay until a user gesture.
-    });
-  }
+  const musicPlay = $("#music-play");
+  birthdayAudio.addEventListener("play", () => { musicPlay.hidden = true; });
+  birthdayAudio.addEventListener("error", () => { musicPlay.hidden = false; });
+  musicPlay.addEventListener("click", () => {
+    birthdayAudio.play().catch(() => showToast("Birthday music is unavailable. Check music/birthday-song.mp3."));
+  });
+  birthdayAudio.play().catch(() => { musicPlay.hidden = false; });
 
   const arcadeGrid = $("#arcade-grid");
   games.forEach((game, index) => {
     const card = document.createElement("article");
     card.className = "game-card reveal";
-    card.innerHTML = `<div class="game-card-top"><span class="game-icon">${game.icon}</span><span class="game-number">0${index + 1} / 08</span></div><div><h3>${game.name}</h3><p>${game.desc}</p></div><button type="button" data-game="${game.id}">Play game <span aria-hidden="true">→</span></button>`;
+    card.innerHTML = `<div class="game-card-top"><span class="game-icon">${game.icon}</span><span class="game-number">0${index + 1} / 08</span></div><div><h3>${game.name}</h3><p>${game.desc}</p></div><button type="button" data-game="${game.id}">View instructions <span aria-hidden="true">→</span></button>`;
     arcadeGrid.append(card);
   });
 
@@ -222,10 +234,17 @@
   $("#back-to-arcade").addEventListener("click", closeGame);
   document.addEventListener("keydown", (event) => { if (event.key === "Escape" && activeGame) closeGame(); });
 
-  function gameScaffold(game, instruction) {
-    gameContent.innerHTML = `<p class="game-intro">${instruction}</p><div class="game-status" id="game-status" role="status"></div><div id="game-play-area"></div>`;
+  function gameScaffold(game, instruction, startGame) {
+    gameContent.innerHTML = `<p class="game-intro game-instructions">${instruction}</p><div class="game-toolbar game-start-toolbar"><button class="small-button" id="start-game" type="button">Start game ${game.icon}</button></div><div class="game-status" id="game-status" role="status"></div><div id="game-play-area" hidden></div>`;
     $("#game-eyebrow").textContent = `GAME ${String(games.findIndex((item) => item.id === game.id) + 1).padStart(2, "0")} · YOUR BIRTHDAY UNIVERSE`;
     $("#game-title").textContent = `${game.icon} ${game.name}`;
+    $("#start-game").addEventListener("click", () => {
+      $(".game-instructions", gameContent).hidden = true;
+      $(".game-start-toolbar", gameContent).hidden = true;
+      const area = $("#game-play-area");
+      area.hidden = false;
+      startGame(area);
+    }, { once: true });
   }
   function status(message) { const element = $("#game-status"); if (element) element.textContent = message; }
   function gameEnding(message, quoteIndex) {
@@ -249,30 +268,31 @@
 
   function launchGame(game) {
     const instructions = {
-      heart: "Move your basket with ← / → or A / D. On a phone, drag your finger across the playfield. Catch ten hearts to finish.",
+      heart: "Move your basket with ← / → or A / D. On a phone, drag your finger across the playfield. Catch ten pastries to finish.",
       memory: "Watch the stars light up, then repeat the exact sequence. Each round adds one more star.",
       collector: "Tap each floating birthday wish to gather all eight. Every one carries a hope for your year ahead.",
       puzzle: "Tap a tile beside the empty space to slide it. The puzzle starts in a solvable arrangement every time.",
-      hidden: "Tap around the starfield to find the hidden heart. The warmer the spot, the closer you are.",
+      hidden: "Tap around the starfield to find the hidden chocolate. The warmer the spot, the closer you are.",
       shooting: "Tap the shooting stars to collect them before the 30-second sky closes.",
       quiz: "A small birthday quiz about lovely things I hope the year brings you. No wrong answer can take away a wish.",
       maker: "Choose a birthday wish, add a short note, and create a card you can copy and share."
     };
-    gameScaffold(game, instructions[game.id]);
-    const area = $("#game-play-area");
-    if (game.id === "heart") startHeartGame(area);
-    if (game.id === "memory") startMemoryGame(area);
-    if (game.id === "collector") startCollectorGame(area);
-    if (game.id === "puzzle") startPuzzleGame(area);
-    if (game.id === "hidden") startHiddenGame(area);
-    if (game.id === "shooting") startShootingGame(area);
-    if (game.id === "quiz") startQuizGame(area);
-    if (game.id === "maker") startWishMaker(area);
+    const starters = {
+      heart: startHeartGame,
+      memory: startMemoryGame,
+      collector: startCollectorGame,
+      puzzle: startPuzzleGame,
+      hidden: startHiddenGame,
+      shooting: startShootingGame,
+      quiz: startQuizGame,
+      maker: startWishMaker
+    };
+    gameScaffold(game, instructions[game.id], starters[game.id]);
   }
 
   function startHeartGame(area) {
     gameScore = 0;
-    area.innerHTML = '<canvas class="game-canvas" id="heart-canvas" aria-label="Heart catcher playfield"></canvas><div class="game-toolbar"><span class="game-score">Hearts: <b id="heart-score">0</b> / 10</span><button class="small-button" id="heart-replay" type="button">Replay</button></div>';
+    area.innerHTML = '<canvas class="game-canvas" id="heart-canvas" aria-label="Birthday pastry catcher playfield"></canvas><div class="game-toolbar"><span class="game-score">Treats: <b id="heart-score">0</b> / 10</span><button class="small-button" id="heart-replay" type="button">Replay</button></div>';
     const canvas = $("#heart-canvas");
     const context = canvas.getContext("2d");
     const state = { width: 0, height: 0, ratio: 1, basket: 0.5, hearts: [], lastSpawn: 0, lastTime: 0, running: true, keys: new Set() };
@@ -297,11 +317,11 @@
       if (state.keys.has("arrowleft") || state.keys.has("a")) state.basket -= delta * .8;
       if (state.keys.has("arrowright") || state.keys.has("d")) state.basket += delta * .8;
       state.basket = Math.max(.07, Math.min(.93, state.basket));
-      if (timestamp - state.lastSpawn > 720) { state.hearts.push({ x: Math.random() * (state.width - 30) + 15, y: -12, speed: 90 + Math.random() * 75 }); state.lastSpawn = timestamp; }
+      if (timestamp - state.lastSpawn > 720) { state.hearts.push({ x: Math.random() * (state.width - 30) + 15, y: -12, speed: 90 + Math.random() * 75, treat: ["🍰", "🍦", "🍫"][Math.floor(Math.random() * 3)] }); state.lastSpawn = timestamp; }
       context.clearRect(0, 0, state.width, state.height);
       state.hearts = state.hearts.filter((heart) => {
         heart.y += heart.speed * delta;
-        context.font = "22px serif"; context.textAlign = "center"; context.fillText("💖", heart.x, heart.y);
+        context.font = "22px serif"; context.textAlign = "center"; context.fillText(heart.treat, heart.x, heart.y);
         const basketX = state.basket * state.width;
         if (heart.y > state.height - 42 && heart.y < state.height - 9 && Math.abs(heart.x - basketX) < 47) {
           gameScore += 1; $("#heart-score").textContent = String(gameScore); return false;
@@ -311,7 +331,7 @@
       const x = state.basket * state.width;
       context.shadowBlur = 17; context.shadowColor = "#70eaff"; context.fillStyle = "#77e6fa"; context.beginPath(); context.roundRect(x - 43, state.height - 31, 86, 13, 7); context.fill(); context.shadowBlur = 0;
       context.strokeStyle = "rgba(255,141,222,.8)"; context.lineWidth = 2; context.beginPath(); context.arc(x, state.height - 29, 34, Math.PI, 0); context.stroke();
-      if (gameScore >= 10) { state.running = false; gameEnding("You caught 10 hearts, but you deserve a universe full of love! 💖", 0); return; }
+      if (gameScore >= 10) { state.running = false; gameEnding("You caught 10 treats! I hope your birthday is just as sweet as our friendship. 🍰🍦🍫", 0); return; }
       animationFrame = window.requestAnimationFrame(draw);
     }
     animationFrame = window.requestAnimationFrame(draw);
@@ -319,7 +339,7 @@
   }
 
   function startMemoryGame(area) {
-    area.innerHTML = '<div class="game-toolbar"><span class="game-score">Round: <b id="memory-round">1</b></span><button class="small-button" id="memory-start" type="button">Start constellation</button></div><div class="memory-board" id="memory-board"></div><div class="game-toolbar"><button class="small-button" id="memory-replay" type="button">Replay</button></div>';
+    area.innerHTML = '<div class="game-toolbar"><span class="game-score">Round: <b id="memory-round">1</b></span></div><div class="memory-board" id="memory-board"></div><div class="game-toolbar"><button class="small-button" id="memory-replay" type="button">Replay</button></div>';
     const board = $("#memory-board");
     for (let index = 0; index < 16; index += 1) { const button = document.createElement("button"); button.className = "memory-star"; button.type = "button"; button.textContent = "✦"; button.setAttribute("aria-label", `Star ${index + 1}`); button.dataset.index = String(index); board.append(button); }
     let sequence = []; let inputIndex = 0; let accepting = false; let round = 1;
@@ -346,18 +366,19 @@
       if (inputIndex === sequence.length) nextRound();
     }
     board.addEventListener("click", onClick);
-    $("#memory-start").addEventListener("click", () => { gameTimers.forEach(window.clearTimeout); gameTimers = []; sequence = [Math.floor(Math.random() * 16)]; round = 1; $("#memory-round").textContent = "1"; playSequence(); });
+    sequence = [Math.floor(Math.random() * 16)];
+    playSequence();
     $("#memory-replay").addEventListener("click", () => openGame("memory"));
     gameCleanup = () => board.removeEventListener("click", onClick);
   }
 
   function startCollectorGame(area) {
-    const collectorWishes = ["A year of brave beginnings ✨", "Peace for your heart 🫶", "Dreams that find their way 💫", "A thousand reasons to smile 😊", "People who cherish you 🫂", "Goals you feel proud of 🌟", "Little joys every day 🌸", "The love you deserve 💖"];
+    const collectorWishes = ["A year of brave beginnings ✨", "Peace and comfort 🕊️", "Dreams that find their way 💫", "A thousand reasons to smile 😊", "Friends who cherish you 🫂", "Goals you feel proud of 🌟", "Little joys every day 🌸", "Sweet new adventures 🍦"];
     area.innerHTML = '<div class="game-toolbar"><span class="game-score">Collected: <b id="collector-score">0</b> / 8</span><button class="small-button" id="collector-replay" type="button">Replay</button></div><div class="collector-scene" id="collector-scene"></div>';
     const scene = $("#collector-scene"); let count = 0;
     collectorWishes.forEach((wish) => {
       const token = document.createElement("button"); token.type = "button"; token.className = "wish-token"; token.textContent = wish;
-      token.addEventListener("click", () => { if (token.classList.contains("collected")) return; token.classList.add("collected"); count += 1; $("#collector-score").textContent = String(count); if (count === collectorWishes.length) gameEnding("Every wish I collected is a little reminder of how much happiness I wish for you. 💖", 2); });
+      token.addEventListener("click", () => { if (token.classList.contains("collected")) return; token.classList.add("collected"); count += 1; $("#collector-score").textContent = String(count); status(friendshipQuotes[(count - 1) % friendshipQuotes.length]); if (count === collectorWishes.length) { gameEnding("Every wish I collected carries a little piece of how grateful I am for our friendship. 🍰", 2); $(".game-heartfelt", gameContent).textContent = friendshipQuotes[7]; } });
       scene.append(token);
     });
     $("#collector-replay").addEventListener("click", () => openGame("collector"));
@@ -369,7 +390,7 @@
     function draw() {
       board.replaceChildren();
       tiles.forEach((tile, index) => {
-        const button = document.createElement("button"); button.type = "button"; button.className = tile === 0 ? "puzzle-tile empty" : "puzzle-tile"; button.textContent = tile === 0 ? "" : ["✦", "♡", "✧", "☾", "💖", "☼", "✧", "✦"][tile - 1]; button.setAttribute("aria-label", tile === 0 ? "Empty space" : `Move tile ${tile}`); button.dataset.index = String(index); board.append(button);
+        const button = document.createElement("button"); button.type = "button"; button.className = tile === 0 ? "puzzle-tile empty" : "puzzle-tile"; button.textContent = tile === 0 ? "" : ["✦", "🍰", "✧", "☾", "🍫", "☼", "🍦", "✦"][tile - 1]; button.setAttribute("aria-label", tile === 0 ? "Empty space" : `Move tile ${tile}`); button.dataset.index = String(index); board.append(button);
       });
     }
     function neighbors(index) { const row = Math.floor(index / 3), col = index % 3; return [row > 0 ? index - 3 : -1, row < 2 ? index + 3 : -1, col > 0 ? index - 1 : -1, col < 2 ? index + 1 : -1].filter((value) => value >= 0); }
@@ -384,13 +405,13 @@
   }
 
   function startHiddenGame(area) {
-    area.innerHTML = '<div class="search-scene" id="search-scene" aria-label="Tap to search the cosmic scene"><span class="hidden-heart" id="hidden-heart">♥</span></div><div class="game-toolbar"><span class="game-score">Searches: <b id="search-count">0</b></span><button class="small-button" id="hidden-replay" type="button">Try again</button></div>';
+    area.innerHTML = '<div class="search-scene" id="search-scene" aria-label="Tap to search the cosmic scene"><span class="hidden-heart" id="hidden-heart">🍫</span></div><div class="game-toolbar"><span class="game-score">Searches: <b id="search-count">0</b></span><button class="small-button" id="hidden-replay" type="button">Try again</button></div>';
     const scene = $("#search-scene"); const hiddenHeart = $("#hidden-heart"); let searchCount = 0;
     for (let index = 0; index < 35; index += 1) { const star = document.createElement("span"); star.className = "search-decoration"; star.textContent = index % 4 === 0 ? "✧" : "·"; star.style.left = `${Math.random() * 96}%`; star.style.top = `${Math.random() * 94}%`; star.style.fontSize = `${10 + Math.random() * 16}px`; scene.append(star); }
     const target = { x: 14 + Math.random() * 72, y: 18 + Math.random() * 62 };
     function locate(event) {
       const bounds = scene.getBoundingClientRect(); const x = (event.clientX - bounds.left) / bounds.width * 100; const y = (event.clientY - bounds.top) / bounds.height * 100; const distance = Math.hypot((x - target.x) * .8, y - target.y); searchCount += 1; $("#search-count").textContent = String(searchCount);
-      if (distance < 7) { hiddenHeart.style.display = "block"; hiddenHeart.style.left = `${target.x}%`; hiddenHeart.style.top = `${target.y}%`; gameEnding("You found the heart hidden among the stars. It was always meant for you. 💖", 4); scene.removeEventListener("pointerdown", locate); }
+      if (distance < 7) { hiddenHeart.style.display = "block"; hiddenHeart.style.left = `${target.x}%`; hiddenHeart.style.top = `${target.y}%`; gameEnding("You found the chocolate tucked among the stars! You make even ordinary days sweeter. 🍫", 4); scene.removeEventListener("pointerdown", locate); }
       else if (distance < 20) status("A little warmer… you’re getting closer! ✨");
       else if (distance < 34) status("The stars are pointing you in the right direction…");
       else status("Not quite there yet. Try another part of the sky!");
@@ -401,13 +422,13 @@
   }
 
   function startShootingGame(area) {
-    area.innerHTML = '<canvas class="game-canvas" id="shooting-canvas" aria-label="Shooting star catcher playfield"></canvas><div class="game-toolbar"><span class="game-score">Stars: <b id="shooting-score">0</b></span><span class="game-score">Time: <b id="shooting-time">30</b>s</span><button class="small-button" id="shooting-start" type="button">Start sky</button><button class="small-button" id="shooting-replay" type="button">Replay</button></div>';
+    area.innerHTML = '<canvas class="game-canvas" id="shooting-canvas" aria-label="Shooting star catcher playfield"></canvas><div class="game-toolbar"><span class="game-score">Stars: <b id="shooting-score">0</b></span><span class="game-score">Time: <b id="shooting-time">30</b>s</span><button class="small-button" id="shooting-replay" type="button">Replay</button></div>';
     const canvas = $("#shooting-canvas"); const context = canvas.getContext("2d");
     const state = { width: 0, height: 0, ratio: 1, stars: [], running: false, lastTime: 0, lastSpawn: 0, pointer: null, score: 0, deadline: 0 };
     function resize() { const rect = canvas.getBoundingClientRect(); state.ratio = Math.min(window.devicePixelRatio || 1, 2); state.width = rect.width; state.height = rect.height; canvas.width = rect.width * state.ratio; canvas.height = rect.height * state.ratio; context.setTransform(state.ratio, 0, 0, state.ratio, 0, 0); }
     function pointer(event) { const rect = canvas.getBoundingClientRect(); state.pointer = { x: event.clientX - rect.left, y: event.clientY - rect.top }; }
     canvas.addEventListener("pointerdown", pointer); window.addEventListener("resize", resize); resize();
-    function finish() { state.running = false; gameEnding(state.score >= 20 ? `You caught ${state.score} stars! May every one of your dreams find its way to you. 🌠` : `The sky is resting. You caught ${state.score} stars, and I still wish you a whole galaxy of good things. 💖`, 5); }
+    function finish() { state.running = false; gameEnding(state.score >= 20 ? `You caught ${state.score} stars! May every one of your dreams find its way to you. 🌠` : `The sky is resting. You caught ${state.score} stars, and I still wish you a whole galaxy of good things. 🍰`, 5); }
     function draw(timestamp) {
       if (!state.running || activeGame !== "shooting") return;
       const delta = Math.min((timestamp - (state.lastTime || timestamp)) / 1000, .04); state.lastTime = timestamp;
@@ -417,23 +438,23 @@
       context.clearRect(0, 0, state.width, state.height);
       state.stars = state.stars.filter((star) => {
         star.x += star.drift * delta; star.y += star.speed * delta; context.font = `${star.size}px serif`; context.textAlign = "center"; context.shadowColor = "#81e8ff"; context.shadowBlur = 12; context.fillStyle = "#fff3ff"; context.fillText("✦", star.x, star.y); context.shadowBlur = 0;
-        if (state.pointer && Math.hypot(star.x - state.pointer.x, star.y - state.pointer.y) < star.size + 18) { state.pointer = null; state.score += 1; $("#shooting-score").textContent = String(state.score); return false; }
+        if (state.pointer && Math.hypot(star.x - state.pointer.x, star.y - state.pointer.y) < star.size + 18) { state.pointer = null; state.score += 1; $("#shooting-score").textContent = String(state.score); status(friendshipQuotes[(state.score - 1) % friendshipQuotes.length]); return false; }
         return star.y < state.height + 24;
       });
       state.pointer = null;
       animationFrame = window.requestAnimationFrame(draw);
     }
     function start() { state.score = 0; state.stars = []; state.running = true; state.lastTime = 0; state.deadline = performance.now() + 30000; $("#shooting-score").textContent = "0"; status("The sky is open. Catch as many as you can!"); animationFrame = window.requestAnimationFrame(draw); }
-    $("#shooting-start").addEventListener("click", start);
     $("#shooting-replay").addEventListener("click", () => openGame("shooting"));
     gameCleanup = () => { state.running = false; canvas.removeEventListener("pointerdown", pointer); window.removeEventListener("resize", resize); };
+    start();
   }
 
   function startQuizGame(area) {
     area.innerHTML = '<div class="quiz-card" id="quiz-card"></div><div class="game-toolbar"><button class="small-button" id="quiz-replay" type="button">Replay quiz</button></div>';
     const card = $("#quiz-card"); let questionIndex = 0; let correct = 0;
     function showQuestion() {
-      if (questionIndex >= quizQuestions.length) { card.innerHTML = `<h4>You got ${correct} of ${quizQuestions.length} birthday wishes right.</h4><p class="game-intro">The real answer is that you deserve every bit of happiness life has to offer. I believe in you, I am proud of you, and I will always be in your corner. 💖</p>`; gameEnding("Happy eighteenth, Jannuuu. Keep becoming everything you dream of being. ✨", 0); return; }
+      if (questionIndex >= quizQuestions.length) { card.innerHTML = `<h4>You got ${correct} of ${quizQuestions.length} birthday wishes right.</h4><p class="game-intro">The real answer is that you deserve every bit of happiness life has to offer. I believe in you, I am proud of you, and I will always be in your corner. 🍦</p>`; gameEnding("Happy eighteenth, Jannuuu. Keep becoming everything you dream of being. ✨", 0); return; }
       const item = quizQuestions[questionIndex];
       card.innerHTML = `<p class="eyebrow">QUESTION ${questionIndex + 1} / ${quizQuestions.length}</p><h4>${item.question}</h4><div class="quiz-options"></div>`;
       const options = $(".quiz-options", card);
@@ -444,14 +465,14 @@
   }
 
   function startWishMaker(area) {
-    area.innerHTML = `<form class="wish-form" id="wish-form"><label for="wish-choice">Choose a wish<select id="wish-choice">${["May your dreams come true, one beautiful step at a time. ✨", "May you find peace, joy, and people who see how special you are. 💖", "May your courage carry you toward everything you want to become. 🌟", "May our friendship keep growing through every chapter ahead. 🫂", "May laughter, good health, and little adventures find you all year. 🌸"].map((wish, index) => `<option value="${index}">${wish}</option>`).join("")}</select></label><label for="wish-message">Add a short personal note<textarea id="wish-message" maxlength="120" placeholder="A little message for Jannuuu…"></textarea></label><div class="game-toolbar"><button class="small-button" type="submit">Make my wish card ✨</button><button class="small-button" id="maker-replay" type="button">Start over</button></div></form><div id="wish-output"></div>`;
+    area.innerHTML = `<form class="wish-form" id="wish-form"><label for="wish-choice">Choose a wish<select id="wish-choice">${["May your dreams come true, one beautiful step at a time. ✨", "May you find peace, joy, and people who see how special you are. 🍰", "May your courage carry you toward everything you want to become. 🌟", "May our friendship keep growing through every chapter ahead. 🫂", "May laughter, good health, and little adventures find you all year. 🍦"].map((wish, index) => `<option value="${index}">${wish}</option>`).join("")}</select></label><label for="wish-message">Add a short personal note<textarea id="wish-message" maxlength="120" placeholder="A little message for Jannuuu…"></textarea></label><div class="game-toolbar"><button class="small-button" type="submit">Make my wish card ✨</button><button class="small-button" id="maker-replay" type="button">Start over</button></div></form><div id="wish-output"></div>`;
     const form = $("#wish-form");
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const option = $("#wish-choice").selectedOptions[0].textContent;
       const personal = $("#wish-message").value.trim();
       const card = document.createElement("article"); card.className = "generated-wish";
-      const title = document.createElement("p"); title.textContent = "For Jannuuu, with all my heart 💖";
+      const title = document.createElement("p"); title.textContent = "For Jannuuu, with a little sweetness 🍰";
       const body = document.createElement("p"); body.textContent = `${option}${personal ? ` ${personal}` : " I will always be cheering for you."}`;
       const copy = document.createElement("button"); copy.type = "button"; copy.className = "small-button"; copy.textContent = "Copy birthday wish";
       copy.addEventListener("click", async () => { try { await navigator.clipboard.writeText(`${title.textContent}\n${body.textContent}`); showToast("Your birthday wish is copied and ready to share. ✨"); } catch (_) { showToast("Clipboard access is unavailable in this browser."); } });
